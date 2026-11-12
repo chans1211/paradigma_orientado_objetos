@@ -1,0 +1,359 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Paradigma 2: Programación orientada a objetos</title>
+    <link
+      rel="icon"
+      href="data:image/svg+xml,&lt;svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22&gt;&lt;text y=%22.9em%22 font-size=%2290%22&gt;🚗&lt;/text&gt;&lt;/svg&gt;"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Patrick+Hand&display=swap"
+    />
+    <style>
+      /* Estilos de la página: colores, tarjetas, botones y modo oscuro. */
+      :root {
+        --bg: #fff8e7;
+        --card: #fffdf5;
+        --ink: #2b2d42;
+        --mut: #5c5f77;
+        --co: #ef6f6c;
+        --te: #1f8a7d;
+        --mu: #f4b942;
+        --pu: #7b6cf6;
+        box-sizing: border-box;
+        padding-top: env(safe-area-inset-top, 0px);
+        padding-bottom: env(safe-area-inset-bottom, 0px);
+      }
+      html {
+        scroll-padding-top: env(safe-area-inset-top, 0px);
+      }
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme="light"]) {
+          --bg: #1e2033;
+          --card: #2a2d45;
+          --ink: #fff8e7;
+          --mut: #b8b9cc;
+          --co: #ff8a87;
+          --te: #4cc9b8;
+          --mu: #f4b942;
+          --pu: #a99dff;
+          color-scheme: dark;
+        }
+      }
+      :root[data-theme="dark"] {
+        --bg: #1e2033;
+        --card: #2a2d45;
+        --ink: #fff8e7;
+        --mut: #b8b9cc;
+        --co: #ff8a87;
+        --te: #4cc9b8;
+        --mu: #f4b942;
+        --pu: #a99dff;
+        color-scheme: dark;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font:
+          22px/1.4 "Patrick Hand",
+          cursive;
+      }
+      main {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 24px 20px 60px;
+      }
+      h1 {
+        font:
+          700 62px/1 Caveat,
+          cursive;
+        margin: 8px 0;
+      }
+      h2 {
+        font:
+          700 40px/1.1 Caveat,
+          cursive;
+        margin: 0 0 8px;
+      }
+      .sub {
+        color: var(--mut);
+        font-size: 24px;
+        margin: 0 0 8px;
+      }
+      .card {
+        background: var(--card);
+        border: 3px solid var(--ink);
+        border-radius: 20px;
+        padding: 18px 20px;
+        margin: 20px 0;
+      }
+      .row {
+        display: flex;
+        gap: 16px;
+        flex-wrap: wrap;
+      }
+      .row > * {
+        flex: 1;
+        min-width: 260px;
+      }
+      button {
+        font: inherit;
+        background: var(--mu);
+        color: #2b2d42;
+        border: 3px solid var(--ink);
+        border-radius: 12px;
+        padding: 4px 14px;
+        cursor: pointer;
+        margin: 4px 4px 4px 0;
+      }
+      button:hover {
+        filter: brightness(1.08);
+      }
+      pre {
+        background: #2b2d42;
+        color: #fff8e7;
+        border-radius: 12px;
+        padding: 12px;
+        font:
+          16px/1.6 ui-monospace,
+          Menlo,
+          monospace;
+        overflow-x: auto;
+        margin: 8px 0;
+      }
+      pre span {
+        display: block;
+        padding: 0 6px;
+        border-radius: 6px;
+      }
+      pre .hl {
+        background: #ef6f6c;
+        color: #fff;
+      }
+      pre .done {
+        color: #7fe0cf;
+      }
+      input,
+      select {
+        font: inherit;
+        border: 3px solid var(--ink);
+        border-radius: 10px;
+        padding: 2px 8px;
+        background: var(--card);
+        color: var(--ink);
+      }
+      .out {
+        min-height: 30px;
+        font-weight: bold;
+        margin-top: 6px;
+      }
+      .ok {
+        color: var(--te);
+      }
+      .bad {
+        color: var(--co);
+      }
+      .mut {
+        color: var(--mut);
+      }
+      .tag {
+        display: inline-block;
+        border: 2px solid var(--ink);
+        border-radius: 999px;
+        padding: 0 12px;
+        font-size: 18px;
+      }
+      .tabs button.on {
+        background: var(--pu);
+        color: #fff;
+      }
+      .pill {
+        border-radius: 16px;
+        border: 3px solid var(--ink);
+        padding: 10px 14px;
+        background: var(--card);
+      }
+      .swatch {
+        height: 22px;
+        border-radius: 8px;
+        border: 2px solid var(--ink);
+        margin-bottom: 6px;
+      }
+      .anchor {
+        background: var(--mu);
+        color: #2b2d42;
+        border-radius: 14px;
+        padding: 10px 16px;
+        font-size: 24px;
+        border: 3px solid var(--ink);
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <p class="tag">Paradigma 2 de 3</p>
+      <h1>Programación orientada a objetos</h1>
+      <p class="sub">Los datos (atributos) y las operaciones (métodos) viven juntos en objetos.</p>
+      <div class="card">
+        <h2>1 y 2. Clase y objeto</h2>
+        <p><b>Clase</b> = el plano. <b>Objeto</b> = una instancia concreta del plano.</p>
+        <pre><span>clase Automovil</span><span>  atributos: marca, color, velocidad</span><span>  métodos:   acelerar(), frenar()</span></pre>
+        <p>
+          Crea instancias:
+          <select id="mk">
+            <option>Toyota</option>
+            <option>Renault</option>
+            <option>Chevrolet</option>
+          </select>
+          <select id="cl">
+            <option value="#ef6f6c">rojo</option>
+            <option value="#4a90e2">azul</option>
+            <option value="#2a9d8f">verde</option>
+            <option value="#f4b942">amarillo</option>
+          </select>
+          <button onclick="crearObjeto()">Crear objeto</button>
+        </p>
+        <div class="row" id="objs"></div>
+      </div>
+      <div class="card">
+        <h2>Los pilares</h2>
+        <div class="tabs" id="tabs"></div>
+        <div id="tabc"></div>
+      </div>
+      <p class="anchor">Para recordar: POO = organizar el código por objetos.</p>
+    </main>
+    <script>
+      /* Dibuja líneas de código dentro de un <pre> y resalta la activa. */
+      function pintarLineas(id, arr, act, done) {
+        document.getElementById(id).innerHTML = arr
+          .map(
+            (t, i) =>
+              '<span class="' +
+              (i == act ? "hl" : done && i < act ? "done" : "") +
+              '">' +
+              (done && i < act ? "✓ " : "") +
+              t.replace(/&/g, "&amp;").replace(/</g, "&lt;") +
+              "</span>",
+          )
+          .join("");
+      }
+      /* Atajo para buscar un elemento por su id. */
+      const porId = (id) => document.getElementById(id);
+      let n = 0;
+      const nombreDeColor = {
+        "#ef6f6c": "rojo",
+        "#4a90e2": "azul",
+        "#2a9d8f": "verde",
+        "#f4b942": "amarillo",
+      };
+      /* CLASE Y OBJETO: crea una instancia de Automovil con sus métodos. */
+      function crearObjeto() {
+        n++;
+        const c = porId("cl").value,
+          m = porId("mk").value,
+          id = "o" + n;
+        const d = document.createElement("div");
+        d.className = "pill";
+        d.innerHTML =
+          '<div class="swatch" style="background:' +
+          c +
+          '"></div><b>miAutomovil' +
+          nombreDeColor[c][0].toUpperCase() +
+          nombreDeColor[c].slice(1) +
+          n +
+          "</b><br>marca: " +
+          m +
+          '<br>velocidad: <b id="' +
+          id +
+          '">0</b> km/h<br><button>acelerar()</button><button>frenar()</button>';
+        const b = d.querySelectorAll("button");
+        b[0].onclick = () => {
+          porId(id).textContent = +porId(id).textContent + 20;
+        };
+        b[1].onclick = () => {
+          porId(id).textContent = Math.max(0, +porId(id).textContent - 20);
+        };
+        porId("objs").appendChild(d);
+      }
+      crearObjeto();
+      let saldo = 100;
+      /* Contenido de cada pilar de la POO (una pestaña por pilar). */
+      const contenidoPilares = {
+        Abstracción: () =>
+          '<p>Quedarse solo con lo <b>esencial</b> para el problema. <span class="mut">(Concepto fuera del libro.)</span></p><div class="row"><div class="pill"><b>Un auto real tiene…</b><br>marca, color, velocidad, tornillos del motor, tipo de pintura, número de chasis, textura del asiento…</div><div class="pill"><b class="ok">Mi modelo Automovil solo guarda:</b><br>marca, color y velocidad. Lo demás no importa para este programa.</div></div>',
+        Encapsulamiento: () =>
+          '<p>Los datos internos se ocultan; solo se accede por métodos públicos.</p><div class="pill"><b>CuentaBancaria</b> · saldo (privado): <b id="sd">••••</b><br><input id="mt" type="number" value="50" min="1" style="width:90px"> <button onclick="depositar()">depositar()</button><button onclick="retirar()">retirar()</button><button onclick="modificarSaldoDirecto()">cuenta.saldo = 1000000</button><div class="out" id="eo"></div></div>',
+        Herencia: () =>
+          '<p>Una clase hereda atributos y métodos de otra y reutiliza su código. Toca una clase:</p><div style="text-align:center"><button onclick="mostrarHerencia(0)">Vehiculo</button><br>↓ hereda ↓<br><button onclick="mostrarHerencia(1)">Automovil</button><button onclick="mostrarHerencia(2)">Bicicleta</button></div><div class="pill" id="ho"></div>',
+        Polimorfismo: () =>
+          '<p>El mismo mensaje, respuestas distintas según el objeto.</p><div class="row"><div class="pill">Automovil<br><button onclick="mover(0)">mover()</button><div class="out" id="m0"></div></div><div class="pill">Bicicleta<br><button onclick="mover(1)">mover()</button><div class="out" id="m1"></div></div><div class="pill">Lancha<br><button onclick="mover(2)">mover()</button><div class="out" id="m2"></div></div></div><button onclick="mover(0);mover(1);mover(2)">Enviar mover() a todos</button>',
+      };
+      /* Cambia de pestaña y muestra el pilar elegido. */
+      function mostrarPestana(k) {
+        porId("tabs").innerHTML = Object.keys(contenidoPilares)
+          .map(
+            (x) =>
+              '<button class="' +
+              (x == k ? "on" : "") +
+              '" onclick="mostrarPestana(\'' +
+              x +
+              "')\">" +
+              x +
+              "</button>",
+          )
+          .join("");
+        porId("tabc").innerHTML = contenidoPilares[k]();
+        if (k == "Herencia") mostrarHerencia(1);
+      }
+      mostrarPestana("Abstracción");
+      function mostrarMensaje(t, c) {
+        porId("eo").innerHTML = '<span class="' + c + '">' + t + "</span>";
+        porId("sd").textContent = saldo >= 0 ? "••••" : "";
+      }
+      /* ENCAPSULAMIENTO: el saldo solo cambia mediante métodos. */
+      function depositar() {
+        const m = +porId("mt").value;
+        if (m > 0) {
+          saldo += m;
+          mostrarMensaje("depositar(" + m + "): operación válida, el saldo se actualizó.", "ok");
+        }
+      }
+      function retirar() {
+        const m = +porId("mt").value;
+        if (m > saldo)
+          mostrarMensaje("retirar(" + m + "): rechazado, fondos insuficientes.", "bad");
+        else {
+          saldo -= m;
+          mostrarMensaje("retirar(" + m + "): operación válida.", "ok");
+        }
+      }
+      function modificarSaldoDirecto() {
+        mostrarMensaje("Error: saldo es privado, no se puede modificar desde fuera.", "bad");
+      }
+      /* HERENCIA: qué recibe cada clase de Vehiculo. */
+      function mostrarHerencia(i) {
+        const o = [
+          "<b>Vehiculo</b>: atributo velocidad · método mover()",
+          '<b>Automovil</b> hereda de Vehiculo<br>heredado: <span class="ok">velocidad, mover()</span> · propio: <b>puertas</b>',
+          '<b>Bicicleta</b> hereda de Vehiculo<br>heredado: <span class="ok">velocidad, mover()</span> · propio: <b>pedales</b>',
+        ];
+        porId("ho").innerHTML = o[i];
+      }
+      /* POLIMORFISMO: mismo mensaje, respuesta distinta. */
+      function mover(i) {
+        porId("m" + i).textContent = [
+          "Avanza con el motor",
+          "Avanza pedaleando",
+          "Avanza con la hélice",
+        ][i];
+      }
+    </script>
+  </body>
+</html>
